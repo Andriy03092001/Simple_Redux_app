@@ -1,17 +1,45 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { createStore } from "redux";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const initialState = 0;
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "PLUS": {
+      return state + 1;
+    }
+
+    case "MINUS": {
+      return state - 1;
+    }
+
+    default:
+      return state;
+  }
+}
+
+const store = createStore(reducer);
+store.subscribe(() => {
+  console.log(store.getState());
+  document.getElementById("counter").innerHTML = store.getState();
+})
+
+
+var btn1 = document.getElementById("btnPlus");
+var btn2 = document.getElementById("btnMinus");
+
+btn1.addEventListener("click", () => {
+  store.dispatch({ type: "PLUS" }); //Тут ми визвали дію PLUS
+})
+
+btn2.addEventListener("click", () => {
+  store.dispatch({ type: "MINUS" }); //Тут ми визвали дію PLUS
+})
+
+// console.log(store.getState());
+store.dispatch({ type: "PLUS" }); //Тут ми визвали дію PLUS
+store.dispatch({ type: "PLUS" }); //Тут ми визвали дію PLUS
+store.dispatch({ type: "PLUS" }); //Тут ми визвали дію PLUS
+// console.log(store.getState());
+store.dispatch({ type: "MINUS" });
+// console.log(store.getState());
+//npm install redux react-redux
